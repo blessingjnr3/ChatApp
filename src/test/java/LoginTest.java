@@ -82,3 +82,4 @@ public class LoginTest {
         assertEquals("Username or password incorrect, please try again.", msg);
     }
 }
+
