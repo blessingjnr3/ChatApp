@@ -101,7 +101,7 @@ public class Main {
             msg.setMessage(text);
             String hash = msg.createMessageHash();
             System.out.println("Hash: " + hash);
-
+// QuickChat main menu
             System.out.println("1) Send Message");
             System.out.println("2) Disregard Message");
             System.out.println("3) Store Message");

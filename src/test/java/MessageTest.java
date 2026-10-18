@@ -2,6 +2,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class MessageTest {
+    // Unit tests for the Message class
 
     @Test
     public void testMessageLengthSuccess() {

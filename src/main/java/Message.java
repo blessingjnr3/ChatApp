@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Message {
+    // Handles message creation, validation and storage
 
     private String messageID;
     private int messageNum;
@@ -14,7 +15,7 @@ public class Message {
     private static int totalSent = 0;
     private static ArrayList<String> allMessages = new ArrayList<>();
 
-    // generates a random 10 digit ID
+    // Generates a random 10-digit message ID
     public String generateMessageID() {
         Random r = new Random();
         long num = 1000000000L + (long)(r.nextDouble() * 9000000000L);
@@ -99,7 +100,7 @@ public class Message {
             fw.write("},\n");
             fw.close();
         } catch (IOException e) {
-            System.out.println("Error saving message");
+            System.out.println("Error saving the message to file.");
         }
     }
 
