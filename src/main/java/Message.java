@@ -15,7 +15,7 @@ public class Message {
     private static int totalSent = 0;
     private static ArrayList<String> allMessages = new ArrayList<>();
 
-    // generates a random 10 digit ID
+    // Generates a random 10-digit message ID
     public String generateMessageID() {
         Random r = new Random();
         long num = 1000000000L + (long)(r.nextDouble() * 9000000000L);
