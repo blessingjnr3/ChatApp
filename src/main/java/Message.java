@@ -100,7 +100,7 @@ public class Message {
             fw.write("},\n");
             fw.close();
         } catch (IOException e) {
-            System.out.println("Error saving message");
+            System.out.println("Error saving the message to file.");
         }
     }
 
