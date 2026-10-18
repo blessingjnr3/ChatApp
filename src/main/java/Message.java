@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Message {
+    // Handles message creation, validation and storage
 
     private String messageID;
     private int messageNum;
