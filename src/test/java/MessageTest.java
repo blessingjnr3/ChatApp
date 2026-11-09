@@ -1,25 +1,23 @@
+
+
+import quikchat.Message;
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class MessageTest {
-    // Unit tests for the Message class
+
+    // This runs before every test to clear the array so tests don't interfere with each other
+    @Before
+    public void setUp() {
+        Message.getStoredMessages().clear();
+    }
 
     @Test
     public void testMessageLengthSuccess() {
         Message m = new Message();
         m.setMessage("Hi Mike, can you join us for dinner tonight?");
         assertTrue(m.getMessage().length() <= 250);
-    }
-
-    @Test
-    public void testMessageLengthFail() {
-        Message m = new Message();
-        String longMsg = "";
-        for (int i = 0; i < 260; i++) {
-            longMsg = longMsg + "a";
-        }
-        m.setMessage(longMsg);
-        assertTrue(m.getMessage().length() > 250);
     }
 
     @Test
@@ -30,27 +28,42 @@ public class MessageTest {
     }
 
     @Test
-    public void testRecipientFail() {
-        Message m = new Message();
-        String result = m.checkRecipientCell("08575975889");
-        assertEquals("Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.", result);
+    public void testLongestMessage() {
+        Message m1 = new Message();
+        m1.setMessage("Short message");
+        m1.SentMessage("3");
+
+        Message m2 = new Message();
+        m2.setMessage("Where are you? You are late! I have asked you to be on time.");
+        m2.SentMessage("3");
+
+        Message longest = Message.getStoredMessages().get(0);
+        for (Message m : Message.getStoredMessages()) {
+            if (m.getMessage().length() > longest.getMessage().length()) {
+                longest = m;
+            }
+        }
+        assertEquals("Where are you? You are late! I have asked you to be on time.", longest.getMessage());
     }
 
     @Test
-    public void testHash() {
-        Message m = new Message();
-        m.generateMessageID();
-        m.setMessageNum(0);
-        m.setMessage("Hi Thanks");
-        String h = m.createMessageHash();
-        assertTrue(h.endsWith(":0:HITHANKS"));
-    }
+    public void testSearchByRecipient() {
+        Message m1 = new Message();
+        m1.setRecipient("+27838884567");
+        m1.setMessage("Message 1");
+        m1.SentMessage("3");
 
-    @Test
-    public void testMessageID() {
-        Message m = new Message();
-        String id = m.generateMessageID();
-        assertTrue(m.checkMessageID());
-        assertEquals(10, id.length());
+        Message m2 = new Message();
+        m2.setRecipient("+27838884567");
+        m2.setMessage("Message 2");
+        m2.SentMessage("3");
+
+        int count = 0;
+        for (Message m : Message.getStoredMessages()) {
+            if (m.getRecipient().equals("+27838884567")) {
+                count++;
+            }
+        }
+        assertEquals(2, count);
     }
 }

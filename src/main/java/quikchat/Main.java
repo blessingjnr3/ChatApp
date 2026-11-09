@@ -1,3 +1,5 @@
+package quikchat;
+
 import java.util.Scanner;
 
 public class Main {
@@ -10,10 +12,8 @@ public class Main {
         System.out.println("=== Registration ===");
         System.out.print("Enter username: ");
         String user = sc.nextLine();
-
         System.out.print("Enter password: ");
         String pass = sc.nextLine();
-
         System.out.print("Enter cell number: ");
         String cell = sc.nextLine();
 
@@ -40,15 +40,14 @@ public class Main {
             return;
         }
 
-        // Part 2 starts here
         System.out.println("\nWelcome to QuickChat.");
 
         boolean running = true;
-
         while (running) {
             System.out.println("\n1) Send Messages");
             System.out.println("2) Show recently sent messages");
-            System.out.println("3) Quit");
+            System.out.println("3) Stored Messages");
+            System.out.println("4) Quit");
             System.out.print("Enter choice: ");
             String option = sc.nextLine();
 
@@ -57,6 +56,8 @@ public class Main {
             } else if (option.equals("2")) {
                 System.out.println("Coming Soon.");
             } else if (option.equals("3")) {
+                storedMessagesMenu(sc);
+            } else if (option.equals("4")) {
                 System.out.println("Goodbye");
                 running = false;
             } else {
@@ -80,14 +81,14 @@ public class Main {
             String id = msg.generateMessageID();
             System.out.println("Message ID generated: " + id);
 
-            System.out.print("Enter recipient number: ");
-            String recip = sc.nextLine();
-            String check = msg.checkRecipientCell(recip);
-            System.out.println(check);
-
-            if (!check.equals("Cell phone number successfully captured.")) {
-                continue;
-            }
+            String recip;
+            String check;
+            do {
+                System.out.print("Enter recipient number: ");
+                recip = sc.nextLine();
+                check = msg.checkRecipientCell(recip);
+                System.out.println(check);
+            } while (!check.equals("Cell phone number successfully captured."));
 
             System.out.print("Enter message: ");
             String text = sc.nextLine();
@@ -99,9 +100,10 @@ public class Main {
             }
 
             msg.setMessage(text);
+
             String hash = msg.createMessageHash();
             System.out.println("Hash: " + hash);
-// QuickChat main menu
+
             System.out.println("1) Send Message");
             System.out.println("2) Disregard Message");
             System.out.println("3) Store Message");
@@ -121,5 +123,46 @@ public class Main {
 
         Message m = new Message();
         System.out.println("\nTotal messages sent: " + m.returnTotalMessages());
+    }
+
+    public static void storedMessagesMenu(Scanner sc) {
+        boolean back = false;
+
+        while (!back) {
+            System.out.println("\n=== Stored Messages Menu ===");
+            System.out.println("a) Display sender and recipient of all stored messages");
+            System.out.println("b) Display the longest stored message");
+            System.out.println("c) Search for a message ID");
+            System.out.println("d) Search messages by recipient");
+            System.out.println("e) Delete a message using message hash");
+            System.out.println("f) Display full report");
+            System.out.println("g) Back to main menu");
+            System.out.print("Enter choice: ");
+            String choice = sc.nextLine();
+
+            if (choice.equalsIgnoreCase("a")) {
+                Message.displayStoredSendersAndRecipients();
+            } else if (choice.equalsIgnoreCase("b")) {
+                Message.displayLongestStoredMessage();
+            } else if (choice.equalsIgnoreCase("c")) {
+                System.out.print("Enter Message ID: ");
+                String id = sc.nextLine();
+                Message.searchByMessageID(id);
+            } else if (choice.equalsIgnoreCase("d")) {
+                System.out.print("Enter recipient number: ");
+                String cell = sc.nextLine();
+                Message.searchByRecipient(cell);
+            } else if (choice.equalsIgnoreCase("e")) {
+                System.out.print("Enter message hash: ");
+                String hash = sc.nextLine();
+                Message.deleteByHash(hash);
+            } else if (choice.equalsIgnoreCase("f")) {
+                Message.displayFullReport();
+            } else if (choice.equalsIgnoreCase("g")) {
+                back = true;
+            } else {
+                System.out.println("Invalid option");
+            }
+        }
     }
 }
