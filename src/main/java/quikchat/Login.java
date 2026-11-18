@@ -1,3 +1,5 @@
+package quikchat;
+
 public class Login {
     private String storedUsername;
     private String storedPassword;
